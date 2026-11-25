@@ -1,6 +1,8 @@
 # Run-to-Run Variance in a Plan-and-Execute LLM Judge (code and run outputs)
 
-Anonymous release accompanying the ARR submission. It contains every script
+Code and data for the paper "Run-to-Run Variance in a Plan-and-Execute LLM
+Judge: A Stage-Wise Study on Multi-Turn Dialogue" by Heounmo Go and Sanghyun
+Park (Yonsei University). The release contains every script
 used to produce the paper's results, the prompts, the item lists, and the raw
 outputs of every run, so all tables can be recomputed without calling any API.
 
@@ -15,24 +17,24 @@ environment, never stored in code).
 
 Run each command from this folder.
 
-| Paper | Command |
+| Result in the paper | Command |
 |---|---|
-| Table 1 (reliability of nine judges, two MT-Bench-101 sets) | `python reference_free_reliability.py` |
-| Table 2 (stage-fixed design) and the framing control in App. B | `python analyze_stage_fixed.py` |
-| Table 3 (nested decomposition) and Table 6 (averaging designs) | `python analyze_nested.py` |
-| Table 4 (backends x benchmarks) | `python analyze_crossbench.py` |
-| Sec. 4, Solver rerun on stored inputs (80%) | `python analyze_solver_repro.py` |
-| Critique-Score table | `python analyze_cs.py` |
-| Two-system comparison, simulated | `python analyze_system_ranking.py` |
-| Ten repeated complete evaluations | `python analyze_independent.py`, `python direct_session_check.py` |
+| Reliability of nine judge designs and the second MT-Bench-101 set (Sec. 4) | `python reference_free_reliability.py` |
+| Stage-fixed design (appendix table) and its framing control | `python analyze_stage_fixed.py` |
+| Nested variance decomposition (Sec. 5) and averaging designs (Sec. 8) | `python analyze_nested.py` |
+| Backends x benchmarks (Sec. 6) | `python analyze_crossbench.py` |
+| Solver rerun on stored inputs, 80% (Sec. 4) | `python analyze_solver_repro.py` |
+| Critique-Score judge (Sec. 6) | `python analyze_cs.py` |
+| Two-system comparison, simulated (appendix) | `python analyze_system_ranking.py` |
+| Ten repeated complete evaluations (appendix) | `python analyze_independent.py`, `python direct_session_check.py` |
 | ICC and variance-component intervals | `python uncertainty_tables.py` |
-| Failed-call counts (Appendix B) | `python failure_counts.py` |
-| Leaderboard table (ten runs, two-level bootstrap) | `python analyze_leaderboard.py` |
+| Failed-call counts (appendix) | `python failure_counts.py` |
+| Six-system leaderboard, ten runs (Sec. 7) | `python analyze_leaderboard.py` |
 | Paired PWS-Direct leaderboard differences | `python analyze_leaderboard_diff.py` |
-| Intervention table (MT-Bench-101 / MT-Bench) | `python analyze_interventions.py`, then with `DATASET=mtbench` |
+| Interventions, MT-Bench-101 / MT-Bench (Sec. 8) | `python analyze_interventions.py`, then with `DATASET=mtbench` |
 | Dollar cost of averaging designs | `python averaging_costs.py` (uses `output_token_accounting.json`) |
 
-The human ratings discussed in Appendix C are not included in this release,
+The human ratings discussed in the paper's appendix on human ratings are not included in this release,
 so that appendix's numbers cannot be recomputed from these files. The paper
 makes no claim that depends on them.
 
@@ -82,7 +84,7 @@ Critique-Score components exactly.
 Design sizes for `multimodel_nested.py` are set with the environment variables
 `NP`, `NW`, `NS`, `NR`, and `ND` (plans, Worker draws per plan, Solver calls per
 Worker draw, evidence-free Solver calls per plan, Direct runs). The values
-used for each run are given in the caption of Table 4.
+used for each run are given in the caption of the backends table (Sec. 6).
 
 All judges ran at temperature 0 (self-consistency samples at 0.7) in October 2026 with these snapshots:
 `gpt-4o-mini-2024-07-18`, `claude-haiku-4-5-20251001`, and
