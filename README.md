@@ -1,4 +1,4 @@
-﻿# Run-to-Run Variance in a Plan-and-Execute LLM Judge (code and run outputs)
+# Run-to-Run Variance in a Plan-and-Execute LLM Judge (code and run outputs)
 
 Anonymous release accompanying the ARR submission. It contains every script
 used to produce the paper's results, the prompts, the item lists, and the raw
@@ -35,6 +35,26 @@ Run each command from this folder.
 The human ratings discussed in Appendix C are not included in this release,
 so that appendix's numbers cannot be recomputed from these files. The paper
 makes no claim that depends on them.
+
+## Applying the protocol to your own judge
+
+`nested_components.py` computes the stage-wise variance components of Sec. 3.5
+for any judge whose stages are sampled one after another. It does not depend on
+our prompts or backends.
+
+1. For each item, draw P fresh first-stage outputs (e.g. plans or critiques),
+   W second-stage draws on each, and S final scoring calls on each draw. For a
+   two-stage judge such as Critique-Score, use W = 1.
+2. Save one row per final score with the columns `item`, `plan`, `worker`,
+   `solver`, `score` (CSV or JSONL). Optionally add rows scored without the
+   middle stage, with `worker` set to `noW`, to estimate amplification.
+3. Run `python nested_components.py scores.csv`.
+
+It prints the Planner, Worker, and Solver components with item-bootstrap 95%
+intervals, the single-run variance, the amplification ratio when `noW` rows are
+present, and the residual variance of common averaging designs (Eq. 7). On our
+released outputs it reproduces the nested decomposition table and the
+Critique-Score components exactly.
 
 ## Rerunning the experiments (calls the APIs)
 
